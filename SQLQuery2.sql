@@ -1,7 +1,17 @@
---- User table (uživatel)
----------------
-use AuthorizationStudio9;
 
+BEGIN --- AuthorizationStudio9 database
+/*
+sljsljsl
+*/
+
+drop database AuthorizationStudio9;
+create database AuthorizationStudio9;
+
+END
+--------------------------------------------------------------------------------------------
+Begin --- User table (uživatel)
+
+use AuthorizationStudio9;
 drop table [User];
 
 CREATE TABLE [User] (
@@ -14,171 +24,229 @@ CREATE TABLE [User] (
     ActiveUser Bit default 1
 );
 
+Insert into [User] (FirstName, LastName, EmailAddress, Note)
+values 
+('Karel', 'Škrabal', 'biglebowskij@seznam.cz', 'some note'),
+('Karlos', 'Škrabalos', 'biglebowskij@emil.cz', 'some note about Karlos'),
+('Kadlik', 'Škrabalik', 'biglebowskij@gmail.cz', 'some note about Kadlik');
+
 Select * from [User];
-
-Insert into [User] (FirstName, LastName, EmailAddress, Note)
-values ('Karel', 'Škrabal', 'biglebowskij@seznam.cz', 'some note');
-
-Insert into [User] (FirstName, LastName, EmailAddress, Note)
-values ('Karlos', 'Škrabalos', 'biglebowskij@emil.cz', 'some note about Karlos');
-
-Insert into [User] (FirstName, LastName, EmailAddress, Note)
-values ('Kadlik', 'Škrabalik', 'biglebowskij@gmail.cz', 'some note about Kadlik');
 
 update [User]
 set ActiveUser = 0
 where UserId = 1;
 
+End
 --------------------------------------------------------------------------------------------
+Begin --- Role table (role)
 
---- Role table (role)
---------------
 use AuthorizationStudio9;
-
 drop table [Role];
 
+use AuthorizationStudio9;
 CREATE TABLE [Role] (
     RoleId int primary key identity(1,1),
     RoleName varchar(255),
     Note varchar(255),
 );
 
+use AuthorizationStudio9;
+Insert into [Role] (RoleName, Note)
+values 
+('Admin', 'Admin role note'),
+('Viewer', 'Viewer role note'),
+('User', 'User role note');
+
 Select * from [Role];
 
-Insert into [Role] (RoleName, Note)
-values ('Admin', 'Admin role note');
-
-Insert into [Role] (RoleName, Note)
-values ('User', 'User role note');
-
-
+end
 --------------------------------------------------------------------------------------------
+Begin --- Authorization table (oprávnìní)
 
---- Authorization table (oprávnìní)
-------------------------
 use AuthorizationStudio9;
-
 drop table [Authorization];
 
+use AuthorizationStudio9;
 CREATE TABLE [Authorization](
     AuthorizationId int primary key identity(1,1),
     AuthorizationName varchar(255),
     Note varchar(255),
 );
 
-Select * from [Authorization];
-
+use AuthorizationStudio9;
 Insert into [Authorization] (AuthorizationName, Note)
-values ('Customers', 'Customers module authorization note');
+values 
+('Customers', 'Customers module authorization note'),
+('Invoices', 'Invoice module authorization note'),
+('Orders', 'Orders module authorization note');
 
-Insert into [Authorization](AuthorizationName, Note)
-values ('Invoices', 'Invoice module authorization note');
-
-Insert into [Authorization](AuthorizationName, Note)
-values ('Orders', 'Orders module authorization note');
+Select * from [Authorization];
 
 update [Authorization]
 set AuthorizationName = 'Customers'
 where AuthorizationId = 1;
 
+end
 --------------------------------------------------------------------------------------------
+Begin --- Action table (akce)
 
---- Action table (akce)
-------------------------
 use AuthorizationStudio9;
-
 drop table Action;
 
+use AuthorizationStudio9;
 CREATE TABLE Action (
     ActionId int primary key identity(1,1),
     ACtionName varchar(255),
     Note varchar(255)
 );
 
+use AuthorizationStudio9;
+Insert into Action (ACtionName, Note)
+values 
+('View', 'Action View note'),
+('Edit', 'Action Edit note'),
+('Add', 'Action Add note'),
+('Delete', 'Action Delete note');
+
 Select * from Action;
 
-Insert into Action (ACtionName, Note)
-values ('View', 'Action View note');
-
-Insert into Action (ACtionName, Note)
-values ('Edit', 'Action Edit note');
-
-Insert into Action (ACtionName, Note)
-values ('Add', 'Action Add note');
-
-Insert into Action (ACtionName, Note)
-values ('Delete', 'Action Delete note');
-
+end
 ----------------------------------------------------------------------------------
+Begin --- AuthorizationAction table (oprávnìní - akce)
 
---- AuthorizationAction table (oprávnìní - akce)
--------------------------------------------------
-/*
-Oprávnìní = modul zákazníci x Akce = edit
-*/
 use AuthorizationStudio9;
-
 drop table Authorization_Action;
 
+use AuthorizationStudio9;
 CREATE TABLE Authorization_Action (
 	AuthorizationActionId int primary key identity(1,1),
 	AuthorizationId int,
     ActionId int ,
-	--CONSTRAINT Authorization_Action_pk PRIMARY KEY (AuthorizationId, ActionId),
-	constraint FK_Authorization foreign key (AuthorizationId) references Authorizations (AuthorizationId),
+	constraint FK_Authorization foreign key (AuthorizationId) references [Authorization] (AuthorizationId),
 	constraint FK_Action foreign key (ActionId) references Action (ActionId),
 );
 
+use AuthorizationStudio9;
+Insert into Authorization_Action (AuthorizationId, ActionId)
+values 
+(1, 1),
+(1, 2),
+(3, 3),
+(1, 4),
+(2, 1),
+(2, 4);
+
 Select * from Authorization_Action;
 
-Insert into Authorization_Action (AuthorizationId, ActionId)
-values (1, 1);
-Insert into Authorization_Action (AuthorizationId, ActionId)
-values (1, 2);
-Insert into Authorization_Action (AuthorizationId, ActionId)
-values (1, 3);
-Insert into Authorization_Action (AuthorizationId, ActionId)
-values (1, 4);
-Insert into Authorization_Action (AuthorizationId, ActionId)
-values (2, 1);
-Insert into Authorization_Action (AuthorizationId, ActionId)
-values (2, 2);
-
+end
 ----------------------------------------------------------------------------------
+Begin --- Role_AuthorizationAction table (role - (oprávnìní - akce))
 
---- Role_AuthorizationAction table (role - (oprávnìní - akce))
----------------------------------------------------------------
-/*
-Role = Administrátor x (modul zákazníci x edit)
-*/
 use AuthorizationStudio9;
-
 drop table Role_AuthorizationAction;
 
+use AuthorizationStudio9;
 CREATE TABLE Role_AuthorizationAction (
+	RoleAuthorizationActionId int primary key identity(1,1),
 	RoleId int,
     AuthorizationActionId int,
 	IsAllowed bit,
-	CONSTRAINT Role_Authorization_Action_pk PRIMARY KEY (RoleId, AuthorizationActionId),
 	constraint  FK_Role foreign key (RoleId) references Role (RoleId),
 	constraint FK_AuthorizationAction foreign key (AuthorizationActionId) references Authorization_Action (AuthorizationActionId)
 );
 
+use AuthorizationStudio9;
+Insert into Role_AuthorizationAction (RoleId, AuthorizationActionId, IsAllowed)
+values 
+(1, 1, 1),
+(1, 2, 1),
+(2, 3, 1),
+(2, 1, 0),
+(3, 2, 1);
+
 Select * from Role_AuthorizationAction;
 
---Insert into Authorization_Action (AuthorizationId, ActionId)
---values (1, 1);
---Insert into Authorization_Action (AuthorizationId, ActionId)
---values (1, 2);
---Insert into Authorization_Action (AuthorizationId, ActionId)
---values (1, 3);
---Insert into Authorization_Action (AuthorizationId, ActionId)
---values (1, 4);
---Insert into Authorization_Action (AuthorizationId, ActionId)
---values (2, 1);
---Insert into Authorization_Action (AuthorizationId, ActionId)
---values (2, 2);
-
+end
 ----------------------------------------------------------------------------------
+Begin --- User_AuthorizationAction table (uživatel - (oprávnìní - akce))
+
+use AuthorizationStudio9;
+drop table User_AuthorizationAction;
+
+use AuthorizationStudio9;
+CREATE TABLE User_AuthorizationAction (
+    UserAuthorizationActionId int primary key identity(1,1),
+	UserId int,
+    AuthorizationActionId int,
+	IsAllowed bit,
+	constraint  FK_User foreign key (UserId) references [User] (UserId),
+	constraint FK_AuthorizationAction1 foreign key (AuthorizationActionId) references Authorization_Action (AuthorizationActionId)
+);
+
+use AuthorizationStudio9;
+Insert into User_AuthorizationAction (UserId, AuthorizationActionId, IsAllowed)
+values 
+(1, 1, 1),
+(1, 2, 1),
+(2, 3, 1),
+(2, 1, 0),
+(3, 2, 1);
+
+Select * from User_AuthorizationAction;
+
+end
+----------------------------------------------------------------------------------
+--Begin --- Temp table
+
+--end
+----------------------------------------------------------------------------------
+Begin --- Tests
+
+--- Authorization x Action = all actions defined on modules
+Select AuthorizationActionId, 
+auth.AuthorizationName as [Module Authorized], 
+act.ACtionName as [Action Name] 
+from Authorization_Action as auth_act
+inner join Action as act
+on auth_act.ActionId = act.ActionId
+inner join [Authorization] as auth
+on auth_act.AuthorizationId = auth.AuthorizationId;
+
+--- Roles - (Authorization x Action) = roles with existing actions defined on modules
+Select rol_auth_act.RoleAuthorizationActionId, 
+rol.RoleName [Role Name], 
+--rol_auth_act.AuthorizationActionId, 
+--auth_act.ActionId, 
+(select ACtionName from Action where auth_act.ActionId = ActionId ) as [Action Name], 
+--auth_act.AuthorizationId, 
+(select [Authorization].AuthorizationName from [Authorization] where auth_act.AuthorizationId = AuthorizationId ) as [Module],
+case 
+	when rol_auth_act.IsAllowed = 1 then 'Allowed'
+	else 'Not Allowed'
+end as Allowed
+from Role_AuthorizationAction as rol_auth_act
+inner join Role as rol
+on rol_auth_act.RoleId = rol.RoleId
+inner join Authorization_Action as auth_act
+on auth_act.AuthorizationActionId = rol_auth_act.RoleAuthorizationActionId
+--where rol_auth_act.IsAllowed = 1;
+
+--- Users - (Authorization x Action) = users with existing actions defined on modules
+Select usr_auth_act.UserAuthorizationActionId, 
+usr.LastName [User Name], 
+(select ACtionName from Action where auth_act.ActionId = ActionId ) as [Action Name], 
+(select [Authorization].AuthorizationName from [Authorization] where auth_act.AuthorizationId = AuthorizationId ) as [Module],
+case 
+	when usr_auth_act.IsAllowed = 1 then 'Allowed'
+	else 'Not Allowed'
+end as Allowed
+from User_AuthorizationAction as usr_auth_act
+inner join [User] as usr
+on usr_auth_act.UserId = usr.UserId
+inner join Authorization_Action as auth_act
+on auth_act.AuthorizationActionId = usr_auth_act.UserAuthorizationActionId
+--where usr_auth_act.IsAllowed = 1;
+
+end
 
 
