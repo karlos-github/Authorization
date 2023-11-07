@@ -1,8 +1,5 @@
 
 BEGIN --- AuthorizationStudio9 database
-/*
-sljsljsl
-*/
 
 drop database AuthorizationStudio9;
 create database AuthorizationStudio9;
@@ -112,6 +109,35 @@ Select * from Action;
 
 end
 ----------------------------------------------------------------------------------
+Begin --- UserRole table (uživatel - role)
+use AuthorizationStudio9;
+drop table User_Role;
+
+use AuthorizationStudio9;
+CREATE TABLE User_Role(
+	UserRoleId int primary key identity(1,1),
+	UserId int,
+    RoleId int ,
+	constraint FK_User1 foreign key (UserId) references [User] (UserId),
+	constraint FK_Role1 foreign key (RoleId) references Role (RoleId),
+);
+
+use AuthorizationStudio9;
+Insert into User_Role(UserId, RoleId)
+values 
+(1, 1),
+(1, 2),
+(2, 3),
+(3, 1);
+
+Select * from User_Role;
+
+delete from User_Role;
+update User_Role set RoleId = 2 where UserRoleId = 11
+Select * from User_Role;
+
+end
+----------------------------------------------------------------------------------
 Begin --- AuthorizationAction table (oprávnìní - akce)
 
 use AuthorizationStudio9;
@@ -164,6 +190,7 @@ values
 (2, 1, 0),
 (3, 2, 1);
 
+delete from Role_AuthorizationAction where RoleAuthorizationActionId = 5
 Select * from Role_AuthorizationAction;
 
 end
@@ -196,11 +223,40 @@ Select * from User_AuthorizationAction;
 
 end
 ----------------------------------------------------------------------------------
---Begin --- Temp table
+Begin --- Cache table (uživatel - oprávnìní - akce)
 
---end
+use AuthorizationStudio9;
+drop table UserCache;
+CREATE TABLE UserCache(
+	UserId int,
+	AuthorizationId int,
+	ActionId int
+);
+
+use AuthorizationStudio9;
+select uaa.UserId, aa.AuthorizationId, aa.ActionId from User_AuthorizationAction as uaa
+inner join Authorization_Action as aa
+on uaa.AuthorizationActionId = aa.AuthorizationActionId
+union
+select ur.UserId,  aa.AuthorizationId, aa.ActionId from User_Role as ur
+inner join Role_AuthorizationAction as raa
+on ur.RoleId = raa.RoleId
+inner join Authorization_Action as aa
+on aa.AuthorizationActionId = raa.AuthorizationActionId
+
+
+select * from UserCache;
+end
 ----------------------------------------------------------------------------------
 Begin --- Tests
+
+--- User x Role = all roles for some User
+Select u.LastName, r.RoleName from User_Role as ur
+inner join [User] as u
+on u.UserId = ur.UserId
+inner join Role as r
+on r.RoleId = ur.RoleId
+where u.ActiveUser = 1;
 
 --- Authorization x Action = all actions defined on modules
 Select AuthorizationActionId, 
@@ -248,5 +304,3 @@ on auth_act.AuthorizationActionId = usr_auth_act.UserAuthorizationActionId
 --where usr_auth_act.IsAllowed = 1;
 
 end
-
-
