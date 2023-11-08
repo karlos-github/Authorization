@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\AuthorizationStudio9.props" />
+</Project>
