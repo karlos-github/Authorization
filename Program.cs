@@ -1,4 +1,5 @@
 
+using AuthorizationStudio9.Model;
 using AuthorizationStudio9.Repository;
 using AuthorizationStudio9.Service;
 
@@ -20,7 +21,13 @@ namespace AuthorizationStudio9
 			builder.Services.AddScoped<IUserRepository, UserRepository>();
 			builder.Services.AddScoped<IRoleRepository, RoleRepository>();
 			builder.Services.AddScoped<IRoleService, RoleService>();
+			builder.Services.AddScoped<IActionRepository, ActionRepository>();
+			builder.Services.AddScoped<IActionService, ActionService>();
+			builder.Services.AddScoped<IUserService, UserService>();
 			builder.Services.AddScoped<IAuthorizationService, AuthorizationService>();
+			builder.Services.AddScoped<IAuthorizationRepository, AuthorizationRepository>();
+			builder.Services.AddScoped<IUserRoleRepository, UserRoleRepository>();
+			builder.Services.AddScoped<IUserRoleService, UserRoleService>();
 
 			var app = builder.Build();
 

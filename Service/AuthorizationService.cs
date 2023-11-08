@@ -5,11 +5,15 @@ namespace AuthorizationStudio9.Service
 {
 	public class AuthorizationService : IAuthorizationService
 	{
-		IUserRepository _userRepository;
-		public AuthorizationService(IUserRepository userRepository) => _userRepository = userRepository;
-		public IEnumerable<User> GetAllUsers() => _userRepository.GetAllUsers();
-		public void InsertUser(User user) => _userRepository.InsertNewUser(user);
-		public void UpdateUser(User user) => _userRepository.UpdateUser(user);
-		public void DeleteUser(int id) => _userRepository.DeleteUser(id);
+		IAuthorizationRepository _authorizationRepository;
+		public AuthorizationService(IAuthorizationRepository authorizationRepository) => _authorizationRepository = authorizationRepository;
+
+		public void DeleteAuthorization(int id) => _authorizationRepository.DeleteAuthorization(id);
+
+		public IEnumerable<Authorization> GetAllAuthorizations() => _authorizationRepository.GetAllAuthorizations();
+
+		public void InsertAuthorization(Authorization authorization) => _authorizationRepository.InsertNewAuthorization(authorization);
+
+		public void UpdateAuthorization(Authorization authorization) => _authorizationRepository.UpdateAuthorization(authorization);
 	}
 }

@@ -7,9 +7,9 @@ namespace AuthorizationStudio9.Controllers
 	[ApiController]
 	public class UserController : ControllerBase
 	{
-		readonly IAuthorizationService _authorizationService;
+		readonly IUserService _authorizationService;
 
-		public UserController(IAuthorizationService authorizationService) => _authorizationService = authorizationService;
+		public UserController(IUserService authorizationService) => _authorizationService = authorizationService;
 		[HttpGet("get")]
 		public IActionResult GetAll() => Ok(_authorizationService.GetAllUsers());
 
