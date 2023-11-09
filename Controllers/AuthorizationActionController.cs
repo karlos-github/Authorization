@@ -1,6 +1,40 @@
-﻿namespace AuthorizationStudio9.Controllers
+﻿using AuthorizationStudio9.Model;
+using AuthorizationStudio9.Service;
+using Microsoft.AspNetCore.Mvc;
+
+namespace AuthorizationStudio9.Controllers
 {
-	public class AuthorizationActionController
+	[Route("api/[controller]")]
+	[ApiController]
+	public class AuthorizationActionController : ControllerBase
 	{
+
+		readonly IAuthorizationActionService _authorizationActionService;
+
+		public AuthorizationActionController(IAuthorizationActionService authorizationActionService) => _authorizationActionService = authorizationActionService;
+
+		[HttpGet("get")]
+		public IActionResult GetAll() => Ok(_authorizationActionService.GetAllAuthorizationActions());
+
+		[HttpPost("new")]
+		public void Create([FromBody] AuthorizationAction authorizationAction)
+		{
+			_authorizationActionService.InsertAuthorizationAction(authorizationAction);
+			Ok();
+		}
+
+		[HttpPut("update")]
+		public void Update([FromBody] AuthorizationAction authorizationAction)
+		{
+			_authorizationActionService.UpdateAuthorizationAction(authorizationAction);
+			Ok();
+		}
+
+		[HttpDelete("delete/{id}")]
+		public void Delete(int id)
+		{
+			_authorizationActionService.DeleteAuthorizationAction(id);
+			Ok();
+		}
 	}
 }

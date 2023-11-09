@@ -28,6 +28,8 @@ namespace AuthorizationStudio9
 			builder.Services.AddScoped<IAuthorizationRepository, AuthorizationRepository>();
 			builder.Services.AddScoped<IUserRoleRepository, UserRoleRepository>();
 			builder.Services.AddScoped<IUserRoleService, UserRoleService>();
+			builder.Services.AddScoped<IAuthorizationActionService, AuthorizationActionService>();
+			builder.Services.AddScoped<IAuthorizationActionRepository, AuthorizationActionRepository>();
 
 			var app = builder.Build();
 
