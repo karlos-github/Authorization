@@ -1,5 +1,4 @@
-﻿using AuthorizationStudio9.Model;
-using AuthorizationStudio9.Service;
+﻿using AuthorizationStudio9.Service;
 using Microsoft.AspNetCore.Mvc;
 using Action = AuthorizationStudio9.Model.Action;
 
@@ -17,24 +16,12 @@ namespace AuthorizationStudio9.Controllers
 		public IActionResult GetAll() => Ok(_actionService.GetAllActions());
 
 		[HttpPost("new")]
-		public void Create([FromBody] Action role)
-		{
-			_actionService.InsertNewAction(role);
-			//Ok();
-		}
+		public void Create([FromBody] Action role) => _actionService.InsertNewAction(role);
 
 		[HttpPut("update")]
-		public void Update([FromBody] Action role)
-		{
-			_actionService.UpdateAction(role);
-			//Ok();
-		}
+		public void Update([FromBody] Action role) => _actionService.UpdateAction(role);
 
 		[HttpDelete("delete/{id}")]
-		public void Delete(int id)
-		{
-			_actionService.DeleteAction(id);
-			//Ok();
-		}
+		public void Delete(int id) => _actionService.DeleteAction(id);
 	}
 }

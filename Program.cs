@@ -1,5 +1,3 @@
-
-using AuthorizationStudio9.Model;
 using AuthorizationStudio9.Repository;
 using AuthorizationStudio9.Service;
 
@@ -30,15 +28,17 @@ namespace AuthorizationStudio9
 			builder.Services.AddScoped<IUserRoleService, UserRoleService>();
 			builder.Services.AddScoped<IAuthorizationActionService, AuthorizationActionService>();
 			builder.Services.AddScoped<IAuthorizationActionRepository, AuthorizationActionRepository>();
+			builder.Services.AddScoped<IUserAuthorizationActionService, UserAuthorizationActionService>();
+			builder.Services.AddScoped<IUserAuthorizationActionRepository, UserAuthorizationActionRepository>();
+			builder.Services.AddScoped<IRoleAuthorizationActionRepository, RoleAuthorizationActionRepository>();
+			builder.Services.AddScoped<IRoleAuthorizationActionService, RoleAuthorizationActionService>();
+			builder.Services.AddScoped<IUserCacheService, UserCacheService>();
+			builder.Services.AddScoped<IUserCacheRepository, UserCacheRepository>();
 
 			var app = builder.Build();
 
-			// Configure the HTTP request pipeline.
-			//if (app.Environment.IsDevelopment())
-			//{
-				app.UseSwagger();
-				app.UseSwaggerUI();
-			//}
+			app.UseSwagger();
+			app.UseSwaggerUI();
 
 			//app.UseHttpsRedirection();
 			//app.UseAuthorization();
