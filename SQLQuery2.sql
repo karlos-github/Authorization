@@ -234,6 +234,8 @@ CREATE TABLE UserCache(
 );
 
 use AuthorizationStudio9;
+delete from UserCache;
+insert into UserCache
 select uaa.UserId, aa.AuthorizationId, aa.ActionId from User_AuthorizationAction as uaa
 inner join Authorization_Action as aa
 on uaa.AuthorizationActionId = aa.AuthorizationActionId
@@ -242,7 +244,7 @@ select ur.UserId,  aa.AuthorizationId, aa.ActionId from User_Role as ur
 inner join Role_AuthorizationAction as raa
 on ur.RoleId = raa.RoleId
 inner join Authorization_Action as aa
-on aa.AuthorizationActionId = raa.AuthorizationActionId
+on aa.AuthorizationActionId = raa.AuthorizationActionId;
 
 
 select * from UserCache;
