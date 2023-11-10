@@ -3,8 +3,11 @@
 
 # branch main
 -------------
+##
 SQLQuery2.sql --- soubor obsahuje sql skripty pro vytvoření databáze a potřebných tabulek dle zadání
+##
 SQLQuery1.sql --- soubor obsahuje skripty pro vytvoření stored procedures které se volají v backendu.
+##
 AuthorizationStudio9BackUp --- soubor back up databáze
 
 # branch master
