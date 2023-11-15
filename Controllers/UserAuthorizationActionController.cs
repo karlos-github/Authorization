@@ -15,25 +15,16 @@ namespace AuthorizationStudio9.Controllers
 		[HttpGet("get")]
 		public IActionResult GetAll() => Ok(_userAuthorizationActionService.GetAllUserAuthorizationActions());
 
+		[HttpGet("get/{id}")]
+		public IActionResult GetById(int id) => Ok(_userAuthorizationActionService.GetUserAuthorizationActionById(id));
+
 		[HttpPost("new")]
-		public void Create([FromBody] UserAuthorizationAction userAuthorizationAction)
-		{
-			_userAuthorizationActionService.InsertUserAuthorizationAction(userAuthorizationAction);
-			//Ok();
-		}
+		public void Create([FromBody] UserAuthorizationAction userAuthorizationAction) => _userAuthorizationActionService.InsertUserAuthorizationAction(userAuthorizationAction);
 
 		[HttpPut("update")]
-		public void Update([FromBody] UserAuthorizationAction userAuthorizationAction)
-		{
-			_userAuthorizationActionService.UpdateUserAuthorizationAction(userAuthorizationAction);
-			//Ok();
-		}
+		public void Update([FromBody] UserAuthorizationAction userAuthorizationAction) => _userAuthorizationActionService.UpdateUserAuthorizationAction(userAuthorizationAction);
 
 		[HttpDelete("delete/{id}")]
-		public void Delete(int id)
-		{
-			_userAuthorizationActionService.DeleteUserAuthorizationAction(id);
-			//Ok();
-		}
+		public void Delete(int id) => _userAuthorizationActionService.DeleteUserAuthorizationAction(id);
 	}
 }

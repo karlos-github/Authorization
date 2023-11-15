@@ -14,7 +14,9 @@ namespace AuthorizationStudio9.Service
 
 		public IEnumerable<UserAuthorizationAction> GetAllUserAuthorizationActions() => _userAuthorizationActionRepository.GetAllUserAuthorizationActions();
 
-		public void InsertUserAuthorizationAction(UserAuthorizationAction userAuthorizationAction) => _userAuthorizationActionRepository.InsertNewUserAuthorizationAction(userAuthorizationAction);
+		public UserAuthorizationAction? GetUserAuthorizationActionById(int id) => _userAuthorizationActionRepository.GetUserAuthorizationActionById(id);
+
+		public void InsertUserAuthorizationAction(UserAuthorizationAction userAuthorizationAction) => _userAuthorizationActionRepository.AddUserAuthorizationAction(userAuthorizationAction);
 
 		public void UpdateUserAuthorizationAction(UserAuthorizationAction userAuthorizationAction) => _userAuthorizationActionRepository.UpdateUserAuthorizationAction(userAuthorizationAction);
 	}

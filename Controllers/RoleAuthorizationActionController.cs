@@ -13,25 +13,16 @@ namespace AuthorizationStudio9.Controllers
 		[HttpGet("get")]
 		public IActionResult GetAll() => Ok(_roleAuthorizationActionService.GetAllRoleAuthorizationActions());
 
+		[HttpGet("get/{id}")]
+		public IActionResult GetById(int id) => Ok(_roleAuthorizationActionService.GetRoleAuthorizationActionById(id));
+
 		[HttpPost("new")]
-		public void Create([FromBody] RoleAuthorizationAction roleAuthorizationAction)
-		{
-			_roleAuthorizationActionService.InsertNewRoleAuthorizationAction(roleAuthorizationAction);
-			Ok();
-		}
+		public void Create([FromBody] RoleAuthorizationAction roleAuthorizationAction) => _roleAuthorizationActionService.AddRoleAuthorizationAction(roleAuthorizationAction);
 
 		[HttpPut("update")]
-		public void Update([FromBody] RoleAuthorizationAction roleAuthorizationAction)
-		{
-			_roleAuthorizationActionService.UpdateRoleAuthorizationAction(roleAuthorizationAction);
-			Ok();
-		}
+		public void Update([FromBody] RoleAuthorizationAction roleAuthorizationAction) => _roleAuthorizationActionService.UpdateRoleAuthorizationAction(roleAuthorizationAction);
 
 		[HttpDelete("delete/{id}")]
-		public void Delete(int id)
-		{
-			_roleAuthorizationActionService.DeleteRole(id);
-			Ok();
-		}
+		public void Delete(int id) => _roleAuthorizationActionService.DeleteRoleAuthorizationAction(id);
 	}
 }

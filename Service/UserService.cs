@@ -8,7 +8,8 @@ namespace AuthorizationStudio9.Service
 		IUserRepository _userRepository;
 		public UserService(IUserRepository userRepository) => _userRepository = userRepository;
 		public IEnumerable<User> GetAllUsers() => _userRepository.GetAllUsers();
-		public void InsertUser(User user) => _userRepository.InsertNewUser(user);
+		public User? GetUserById(int id) => _userRepository.GetUserById(id);
+		public void InsertUser(User user) => _userRepository.AddUser(user);
 		public void UpdateUser(User user) => _userRepository.UpdateUser(user);
 		public void DeleteUser(int id) => _userRepository.DeleteUser(id);
 	}

@@ -13,25 +13,16 @@ namespace AuthorizationStudio9.Controllers
 		[HttpGet("get")]
 		public IActionResult GetAll() => Ok(_userRoleService.GetAllUserRoles());
 
+		[HttpGet("get/{id}")]
+		public IActionResult GetById(int id) => Ok(_userRoleService.GetUserRoleById(id));
+
 		[HttpPost("new")]
-		public void Create([FromBody] UserRole userRole)
-		{
-			_userRoleService.InsertNewUserRole(userRole);
-			//Ok();
-		}
+		public void Create([FromBody] UserRole userRole) => _userRoleService.InsertNewUserRole(userRole);
 
 		[HttpPut("update")]
-		public void Update([FromBody] UserRole userRole)
-		{
-			_userRoleService.UpdateUserRole(userRole);
-			//Ok();
-		}
+		public void Update([FromBody] UserRole userRole) => _userRoleService.UpdateUserRole(userRole);
 
 		[HttpDelete("delete/{id}")]
-		public void Delete(int id)
-		{
-			_userRoleService.DeleteUserRole(id);
-			//Ok();
-		}
+		public void Delete(int id) => _userRoleService.DeleteUserRole(id);
 	}
 }

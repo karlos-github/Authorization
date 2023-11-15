@@ -5,8 +5,9 @@ namespace AuthorizationStudio9.Service
 	public interface IRoleAuthorizationActionService
 	{
 		IEnumerable<RoleAuthorizationAction> GetAllRoleAuthorizationActions();
-		void InsertNewRoleAuthorizationAction(RoleAuthorizationAction roleAuthorizationAction);
+		RoleAuthorizationAction? GetRoleAuthorizationActionById(int id);
+		void AddRoleAuthorizationAction(RoleAuthorizationAction roleAuthorizationAction);
 		void UpdateRoleAuthorizationAction(RoleAuthorizationAction roleAuthorizationAction);
-		void DeleteRole(int id);
+		void DeleteRoleAuthorizationAction(int id);
 	}
 }

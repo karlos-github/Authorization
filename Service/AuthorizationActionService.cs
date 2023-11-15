@@ -8,8 +8,9 @@ namespace AuthorizationStudio9.Service
 		IAuthorizationActionRepository _authorizationActionRepository;
 		public AuthorizationActionService(IAuthorizationActionRepository authorizationActionRepository) => _authorizationActionRepository = authorizationActionRepository;
 		public IEnumerable<AuthorizationAction> GetAllAuthorizationActions() => _authorizationActionRepository.GetAllAuthorizationActions();
-		public void InsertAuthorizationAction(AuthorizationAction authorizationAction) => _authorizationActionRepository.InsertNewAuthorizationAction(authorizationAction);
 		public void UpdateAuthorizationAction(AuthorizationAction authorizationAction) => _authorizationActionRepository.UpdateAuthorizationAction(authorizationAction);
 		public void DeleteAuthorizationAction(int id) => _authorizationActionRepository.DeleteAuthorizationAction(id);
+		public AuthorizationAction GetAuthorizationActionById(int id) => _authorizationActionRepository.GetAuthorizationActionById(id);
+		public void AddAuthorizationAction(AuthorizationAction authorizationAction) => _authorizationActionRepository.AddAuthorizationAction(authorizationAction);
 	}
 }

@@ -5,7 +5,8 @@ namespace AuthorizationStudio9.Repository
 	public interface IUserRepository
 	{
 		IEnumerable<User> GetAllUsers();
-		void InsertNewUser(User user);
+		User? GetUserById(int id);
+		void AddUser(User user);
 		void UpdateUser(User user);
 		void DeleteUser(int id);
 	}

@@ -5,7 +5,8 @@ namespace AuthorizationStudio9.Repository
 	public interface IAuthorizationRepository
 	{
 		IEnumerable<Authorization> GetAllAuthorizations();
-		void InsertNewAuthorization(Authorization authorization);
+		Authorization? GetAuthorizationById(int id);
+		void AddAuthorization(Authorization authorization);
 		void UpdateAuthorization(Authorization authorization);
 		void DeleteAuthorization(int id);
 	}

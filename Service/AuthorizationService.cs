@@ -11,8 +11,9 @@ namespace AuthorizationStudio9.Service
 		public void DeleteAuthorization(int id) => _authorizationRepository.DeleteAuthorization(id);
 
 		public IEnumerable<Authorization> GetAllAuthorizations() => _authorizationRepository.GetAllAuthorizations();
+		public Authorization? GetAuthorizationById(int id) => _authorizationRepository.GetAuthorizationById(id);
 
-		public void InsertAuthorization(Authorization authorization) => _authorizationRepository.InsertNewAuthorization(authorization);
+		public void InsertAuthorization(Authorization authorization) => _authorizationRepository.AddAuthorization(authorization);
 
 		public void UpdateAuthorization(Authorization authorization) => _authorizationRepository.UpdateAuthorization(authorization);
 	}

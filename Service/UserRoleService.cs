@@ -12,7 +12,9 @@ namespace AuthorizationStudio9.Service
 
 		public IEnumerable<UserRole> GetAllUserRoles() => _userRoleRepository.GetAllUserRoles();
 
-		public void InsertNewUserRole(UserRole userRole) => _userRoleRepository.InsertNewUserRole(userRole);
+		public UserRole? GetUserRoleById(int id) => _userRoleRepository.GetUserRoleById(id);
+
+		public void InsertNewUserRole(UserRole userRole) => _userRoleRepository.AddUserRole(userRole);
 
 		public void UpdateUserRole(UserRole userRole) => _userRoleRepository.UpdateUserRole(userRole);
 	}

@@ -1,5 +1,4 @@
 ﻿using AuthorizationStudio9.Model;
-using AuthorizationStudio9.Service;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AuthorizationStudio9.Controllers
@@ -8,31 +7,22 @@ namespace AuthorizationStudio9.Controllers
 	[ApiController]
 	public class AuthorizationController : ControllerBase
 	{
-		readonly IAuthorizationService _authorizationService;
+		readonly Service.IAuthorizationService _authorizationService;
 
-		public AuthorizationController(IAuthorizationService authorizationService) => _authorizationService = authorizationService;
+		public AuthorizationController(Service.IAuthorizationService authorizationService) => _authorizationService = authorizationService;
 		[HttpGet("get")]
 		public IActionResult GetAll() => Ok(_authorizationService.GetAllAuthorizations());
 
+		[HttpGet("get/{id}")]
+		public IActionResult GetById(int id) => Ok(_authorizationService.GetAuthorizationById(id));
+
 		[HttpPost("new")]
-		public void Create([FromBody] Authorization authorization)
-		{
-			_authorizationService.InsertAuthorization(authorization);
-			Ok();
-		}
+		public void Create([FromBody] Authorization authorization) => _authorizationService.InsertAuthorization(authorization);
 
 		[HttpPut("update")]
-		public void Update([FromBody] Authorization authorization)
-		{
-			_authorizationService.UpdateAuthorization(authorization);
-			Ok();
-		}
+		public void Update([FromBody] Authorization authorization) => _authorizationService.UpdateAuthorization(authorization);
 
 		[HttpDelete("delete/{id}")]
-		public void Delete(int id)
-		{
-			_authorizationService.DeleteAuthorization(id);
-			Ok();
-		}
+		public void Delete(int id) => _authorizationService.DeleteAuthorization(id);
 	}
 }

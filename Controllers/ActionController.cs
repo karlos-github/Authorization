@@ -10,13 +10,16 @@ namespace AuthorizationStudio9.Controllers
 	{
 		readonly IActionService _actionService;
 
-		public ActionController(IActionService actionService) => _actionService = actionService;
+		public ActionController(IActionService actionService, IConfiguration config) => _actionService = actionService;
 
 		[HttpGet("get")]
 		public IActionResult GetAll() => Ok(_actionService.GetAllActions());
 
+		[HttpGet("get/{id}")]
+		public IActionResult GetById(int id) => Ok(_actionService.GetActionById(id));
+
 		[HttpPost("new")]
-		public void Create([FromBody] Action role) => _actionService.InsertNewAction(role);
+		public void Create([FromBody] Action role) => _actionService.AddAction(role);
 
 		[HttpPut("update")]
 		public void Update([FromBody] Action role) => _actionService.UpdateAction(role);
