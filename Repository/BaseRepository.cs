@@ -132,11 +132,9 @@ namespace AuthorizationStudio9.Repository
 			return cmd;
 		}
 
-		IEnumerable<T> GetTable(SqlDataReader rdr) => GetArguments(rdr);
-
 		T? GetRecord(SqlDataReader rdr) => GetArgument(rdr);
 
-		IEnumerable<T> GetArguments(SqlDataReader rdr)
+		IEnumerable<T> GetTable(SqlDataReader rdr)
 		{
 			var retVal = new List<T>();
 			var result = new object[_types.Length];
