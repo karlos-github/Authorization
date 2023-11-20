@@ -27,7 +27,7 @@ namespace AuthorizationStudio9.Repository
 				using (_con)
 				{
 					if (_con != null && _con.State == ConnectionState.Closed) _con.Open();
-					rowsEffected = AssignCommand(storedProcedureName, entity).ExecuteNonQuery();
+					rowsEffected = AssignAddCommand(storedProcedureName, entity).ExecuteNonQuery();
 				}
 			}
 			catch (Exception) { throw; }
@@ -72,7 +72,7 @@ namespace AuthorizationStudio9.Repository
 				using (_con)
 				{
 					if (_con != null && _con.State == ConnectionState.Closed) _con.Open();
-					SqlDataReader rdr = AssignCommand_(storedProcedureName, id).ExecuteReader();
+					SqlDataReader rdr = AssignGetByIdCommand(storedProcedureName, id).ExecuteReader();
 					return GetRecord(rdr);
 				}
 			}
@@ -87,14 +87,29 @@ namespace AuthorizationStudio9.Repository
 				using (_con)
 				{
 					if (_con != null && _con.State == ConnectionState.Closed) _con.Open();
-					rowsEffected = AssignCommand(storedProcedureName, entity).ExecuteNonQuery();
+					rowsEffected = AssignUpdateCommand(storedProcedureName, entity).ExecuteNonQuery();
 				}
 			}
 			catch (Exception) { throw; }
 			return rowsEffected > 0;
 		}
 
-		SqlCommand AssignCommand(string storedProcedureName, T entity)
+		SqlCommand AssignAddCommand(string storedProcedureName, T entity)
+		{
+			SqlCommand cmd = new(storedProcedureName, _con)
+			{
+				CommandType = CommandType.StoredProcedure
+			};
+			var keyColumnName = RepositoryHelper.GetKeyColumnName(typeof(T));
+			for (int i = 0; i < _names.Length; i++)
+				if (_names[i] != keyColumnName)
+					cmd.Parameters.AddWithValue($"@{_names[i]}", typeof(T).GetProperty(_names[i]).GetValue(entity));
+
+			cmd.ExecuteNonQuery();
+			return cmd;
+		}
+
+		SqlCommand AssignUpdateCommand(string storedProcedureName, T entity)
 		{
 			SqlCommand cmd = new(storedProcedureName, _con)
 			{
@@ -107,7 +122,7 @@ namespace AuthorizationStudio9.Repository
 			return cmd;
 		}
 
-		SqlCommand AssignCommand_(string storedProcedureName, int id)
+		SqlCommand AssignGetByIdCommand(string storedProcedureName, int id)
 		{
 			SqlCommand cmd = new(storedProcedureName, _con)
 			{
